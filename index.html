@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inventory</title>
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    th,
+    td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+
+    tr:hover {
+      background-color: #ddd;
+    }
+
+    .selected {
+      background-color: #a2a2a2 !important;
+    }
+  </style>
+  <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css'>
+  <!-- Latest compiled and minified CSS -->
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/bootstrap-table.min.css'>
+</head>
+
+<body>
+
+  <p id="date-time-info">Loading date and time...</p>
+
+  <table id="dynamic-table" data-toggle='table' data-sort-order='asc' table-no-bordered data-sort-class='data-sortable'
+    data-url="{{ url_for('static', filename='files/msqdb_formatted.json') }}" data-filter-control='true'
+    data-filter-show-clear='true'>
+    <thead>
+      <tr>
+        <th data-sortable='true' data-field='fqdn' data-filter-control='input'>fqdn</th>
+        <th data-sortable='true' data-field='instance' data-filter-control='input'>instance</th>
+        <th data-sortable='true' data-field='TCPDynamicPorts' data-filter-control='input'>TCPDynamicPorts</th>
+        <th data-sortable='true' data-field='ListenOnAllIPs' data-filter-control='input'>ListenOnAllIPs</th>
+        <th data-sortable='true' data-field='TCPPort' data-filter-control='input'>TCPPort</th>
+        <th data-sortable='true' data-field='Majeur' data-filter-control='input'>Majeur</th>
+        <th data-sortable='true' data-field='PatchLevel' data-filter-control='input'>PatchLevel</th>
+        <th data-sortable='true' data-field='Mineur' data-filter-control='input'>Mineur</th>
+        <th data-sortable='true' data-field='Edition' data-filter-control='input'>Edition</th>
+        <th data-sortable='true' data-field='Os' data-filter-control='input'>Os</th>
+        <th data-sortable='true' data-field='pupenv' data-filter-control='input'>pupenv</th>
+      </tr>
+    </thead>
+  </table>
+
+</body>
+
+<script src='https://code.jquery.com/jquery-3.7.1.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js'></script>
+<script src='https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js'></script>
+<!-- Latest compiled and minified JavaScript -->
+<script src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/bootstrap-table.min.js'></script>
+<script
+  src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/extensions/filter-control/bootstrap-table-filter-control.js'></script>
+<!-- Latest compiled and minified Locales -->
+<script
+  src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/locale/bootstrap-table-en-US.min.js'></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const table = document.getElementById('dynamic-table');
+    let selectedRowIndex = 1; // Initialize with first row
+    const rows = table.querySelectorAll('tbody tr');
+
+    function highlightRow() {
+      rows.forEach(row => row.classList.remove('selected'));
+      rows[selectedRowIndex].classList.add('selected');
+    }
+
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'ArrowDown') {
+        selectedRowIndex = Math.min(selectedRowIndex + 1, rows.length - 1);
+        highlightRow();
+      } else if (event.key === 'ArrowUp') {
+        selectedRowIndex = Math.max(selectedRowIndex - 1, 0);
+        highlightRow();
+      } else if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
+        // Handle horizontal navigation if needed
+      }
+    });
+
+    highlightRow(); // Highlight initial row
+  });
+  document.addEventListener("DOMContentLoaded", function () {
+    const dateTimeParagraph = document.getElementById("date-time-info");
+
+    const currentDate = new Date();
+
+    const day = currentDate.toLocaleString('default', { weekday: 'long' });
+    const month = currentDate.toLocaleString('default', { month: 'long' });
+    const date = currentDate.getDate();
+    const year = currentDate.getFullYear();
+    let hours = currentDate.getHours();
+    let minutes = currentDate.getMinutes();
+    let seconds = currentDate.getSeconds();
+
+    // Add leading zero if single digit
+    hours = String(hours).padStart(2, '0');
+    minutes = String(minutes).padStart(2, '0');
+    seconds = String(seconds).padStart(2, '0');
+
+    const dateTimeInfo = `${day}, ${month} ${date}, ${year} ${hours}:${minutes}:${seconds}`;
+    dateTimeParagraph.textContent = dateTimeInfo;
+  });
+</script>
+
+</html>
