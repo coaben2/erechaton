@@ -7,14 +7,16 @@
   <title>Inventory</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
   <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css'>
-  <!-- Latest compiled and minified CSS -->
   <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/bootstrap-table.min.css'>
 </head>
 
 <body>
 
   <p id="date-time-info">Loading date and time...</p>
-
+  <label class="theme-switch" for="checkbox">
+    <input type="checkbox" id="checkbox" />
+    <div class="slider"></div>
+  </label>
   <table id="dynamic-table" data-toggle='table' data-sort-order='asc' table-no-bordered data-sort-class='data-sortable'
     data-url="{{ url_for('static', filename='files/msqdb_formatted.json') }}" data-filter-control='true'
     data-filter-show-clear='true'>

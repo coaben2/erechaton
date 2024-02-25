@@ -44,3 +44,16 @@ document.addEventListener("DOMContentLoaded", function () {
     const dateTimeInfo = `${day}, ${month} ${date}, ${year} ${hours}:${minutes}:${seconds}`;
     dateTimeParagraph.textContent = dateTimeInfo;
 });
+const checkbox = document.getElementById('checkbox');
+
+checkbox.addEventListener('change', function () {
+    if (this.checked) {
+        // Activer le mode sombre
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+    } else {
+        // Activer le mode clair
+        document.documentElement.setAttribute('data-theme', 'light');
+        localStorage.setItem('theme', 'light');
+    }
+});
