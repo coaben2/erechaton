@@ -2,6 +2,10 @@ from flask import Flask, render_template
 
 app = Flask(__name__)
 
+@app.route("/get_json_data")
+def get_json_data():
+    return send_from_directory('static/files', 'msqdb_formatted.json')
+
 @app.route("/")
 def index():
     return render_template('index.html')
